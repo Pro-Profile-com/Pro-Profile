@@ -2,7 +2,7 @@
 title: User Overview
 banner:
   content: |
-    Open SaaS is now running on <b><a href='https://wasp-lang.dev'>Wasp v0.16</a></b>! <br/>⚙️<br/>If you're running an older version and would like to upgrade, please follow the <a href="https://wasp-lang.dev/docs/migration-guides/migrate-from-0-15-to-0-16">migration instructions.</a>
+    Have an Open SaaS app in production? <a href="https://e44cy1h4s0q.typeform.com/to/EPJCwsMi">We'll send you some swag! 👕</a>
 ---
 
 This reference will help you understand how the User entity works in this template.
@@ -10,15 +10,14 @@ This includes the user roles, subscription plans and statuses, and how to author
 
 ## User Entity
 
-The `User` entity within your app is defined in the `main.wasp` file:
+The `User` entity within your app is defined in the `schema.prisma` file:
 
-```tsx title="main.wasp" ins="User: {}"
-entity User {=psl
+```tsx title="schema.prisma" ins="User: {}"
+model User {
   id                        Int             @id @default(autoincrement())
   email                     String?         @unique
   username                  String?         
   createdAt                 DateTime        @default(now())
-  lastActiveTimestamp       DateTime        @default(now())
   isAdmin                   Boolean         @default(false)
   paymentProcessorUserId    String?         @unique
   lemonSqueezyCustomerPortalUrl String?     // You can delete this if you're not using Lemon Squeezy as your payments processor.
@@ -31,17 +30,17 @@ entity User {=psl
   contactFormMessages       ContactFormMessage[]
   tasks                     Task[]
   files                     File[] 
-psl=}
+}
 ```
 
-We store all pertinent information to the user, including identification, subscription, and payment processor information. Meanwhile, Wasp abstracts away all the Auth related entities dealing with `passwords`, `sessions`, and `socialLogins`, so you don't have to worry about these at all in your Prisma schema (if you want to learn more about this process, check out the [Wasp Auth Docs](https://wasp-lang.dev/docs/auth/overview)).
+We store all pertinent information to the user, including identification, subscription, and payment processor information. Meanwhile, Wasp abstracts away all the Auth related entities dealing with `passwords`, `sessions`, and `socialLogins`, so you don't have to worry about these at all in your Prisma schema (if you want to learn more about this process, check out the [Wasp Auth Docs](https://wasp.sh/docs/auth/overview)).
 
 ## Stripe and Subscriptions
 
 We use Stripe to handle all of our subscription payments. The `User` entity has a number of fields that are related to Stripe and their ability to access features behind the paywall:
 
-```tsx title="main.wasp" {4-10}
-entity User {=psl
+```tsx title="schema.prisma" {4-10}
+model User {
   id                        Int             @id @default(autoincrement())
   //...
   paymentProcessorUserId    String?         @unique
@@ -50,7 +49,7 @@ entity User {=psl
   datePaid                  DateTime?
   credits                   Int             @default(3)
   //...
-psl=}
+}
 ```
 
 - `paymentProcessorUserId`: The payment processor customer ID. This is created on checkout and used to identify the customer.
@@ -110,16 +109,15 @@ See the [Payments Integration Guide](/guides/payments-integration/) for more inf
 
 At the moment, we have two user roles: `admin` and `user`. This is defined within the `isAdmin` field in the `User` entity:
 
-```tsx title="main.wasp" {7}
-entity User {=psl
+```tsx title="schema.prisma" {7}
+model User {
   id                        Int             @id @default(autoincrement())
   email                     String?         @unique
   username                  String?
   createdAt                 DateTime        @default(now())
-  lastActiveTimestamp       DateTime        @default(now())
   isAdmin                   Boolean         @default(false)
 //...
-psl=}
+}
 ```
 
 As an Admin, a user has access to the Admin dashboard, along with the user table where they can view and search for users, and edit and update information manually if necessary.

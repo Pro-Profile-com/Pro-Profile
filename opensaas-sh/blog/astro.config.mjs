@@ -30,18 +30,9 @@ export default defineConfig({
         {
           tag: 'script',
           attrs: {
-            src: 'https://www.googletagmanager.com/gtag/js?id=G-8QGM76GR3Q',
+            defer: true,
+            src: '/piggy.js',
           },
-        },
-        {
-          tag: 'script',
-          content: `
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-        
-          gtag('config', 'G-8QGM76GR3Q');
-          `,
         },
       ],
       editLink: {
@@ -85,19 +76,25 @@ export default defineConfig({
               name: 'Vince',
               title: 'Dev Rel @ Wasp',
               picture: '/CRAIG_ROCK.png', // Images in the `public` directory are supported.
-              url: 'https://wasp-lang.dev',
+              url: 'https://wasp.sh',
             },
             matija: {
               name: 'Matija',
               title: 'CEO @ Wasp',
               picture: '/matija.jpeg', // Images in the `public` directory are supported.
-              url: 'https://wasp-lang.dev',
+              url: 'https://wasp.sh',
             },
             milica: {
               name: 'Milica',
               title: 'Growth @ Wasp',
               picture: '/milica.jpg', // Images in the `public` directory are supported.
-              url: 'https://wasp-lang.dev',
+              url: 'https://wasp.sh',
+            },
+            martin: {
+              name: 'Martin',
+              title: 'CTO @ Wasp',
+              picture: '/martin.jpg', // Images in the `public` directory are supported.
+              url: 'https://wasp.sh',
             },
           },
         }),

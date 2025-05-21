@@ -2,7 +2,7 @@
 title: Analytics
 banner:
   content: |
-    Open SaaS is now running on <b><a href='https://wasp-lang.dev'>Wasp v0.16</a></b>! <br/>⚙️<br/>If you're running an older version and would like to upgrade, please follow the <a href="https://wasp-lang.dev/docs/migration-guides/migrate-from-0-15-to-0-16">migration instructions.</a>
+    Have an Open SaaS app in production? <a href="https://e44cy1h4s0q.typeform.com/to/EPJCwsMi">We'll send you some swag! 👕</a>
 ---
 This guide will show you how to integrate analytics for your app. You can choose between [Google Analytics](#google-analytics) and [Plausible](#plausible).
 
@@ -58,7 +58,7 @@ As a completely free, open-source project, we appreciate any help 🙏
 
 ## Google Analytics
 
-First off, head over to `src/analytics/stats.ts` and switch out the Plausible Provider for Google Analytics so that your [background (cron) job](https://wasp-lang.dev/docs/advanced/jobs) fetches the data from Google Analytics for your [Admin Dashboard](/general/admin-dashboard/):
+First off, head over to `src/analytics/stats.ts` and switch out the Plausible Provider for Google Analytics so that your [background (cron) job](https://wasp.sh/docs/advanced/jobs) fetches the data from Google Analytics for your [Admin Dashboard](/general/admin-dashboard/):
 
 ```ts ins={3} del={2} title="stats.ts"
 //...
@@ -98,9 +98,9 @@ Then, set up the Google Analytics API access by following these steps:
 
 4. **Create Credentials:** When you go back to `Credentials` page, you should see a new service account listed under "Service Accounts". It will be a long email address to ends with `@your-project-id.iam.gserviceaccount.com`. Click on the service account name to go to the service account details page. 
 
-    - Under “Keys” in the service account details page, click “Add Key” and choose `Create new key`.
+    - Under "Keys" in the service account details page, click "Add Key" and choose `Create new key`.
   
-    - Select "JSON", then click “Create” to download your new service account’s JSON key file. Keep this file secure and don't add it to your git repo – it grants access to your Google Analytics data.  
+    - Select "JSON", then click "Create" to download your new service account's JSON key file. Keep this file secure and don't add it to your git repo as it grants access to your Google Analytics data.  
 5. **Update your Google Anayltics Settings:** Go back to your Google Analytics dashboard, and click on the `Admin` section in the left sidebar. Under `Property Settings > Property > Property Access Management` Add the service account email address (the one that ends with `@your-project-id.iam.gserviceaccount.com`) and give it `Viewer` permissions.
 
 6. **Encode and add the Credentials:** Add the `client_email` and the `private_key` from your JSON Key file into your `.env.server` file. But be careful! Because Google uses a special PEM private key, you need to first convert the key to base64, otherwise you will run into errors parsing the key. To do this, in a terminal window, run the command below and paste the output into your `.env.server` file under the `GOOGLE_ANALYTICS_PRIVATE_KEY` variable:

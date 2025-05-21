@@ -1,6 +1,6 @@
 --- template/app/main.wasp
 +++ opensaas-sh/app/main.wasp
-@@ -3,30 +3,29 @@
+@@ -3,31 +3,32 @@
      version: "^0.16.0"
    },
  
@@ -8,6 +8,7 @@
 +  title: "Open SaaS",
  
    head: [
+     "<link rel='icon' href='/favicon.ico' />",
      "<meta charset='utf-8' />",
 -    "<meta name='description' content='Your apps main description and features.' />",
 -    "<meta name='author' content='Your (App) Name' />",
@@ -43,11 +44,13 @@
 -    // via the Cookie Consent component after the user clicks the "Accept" cookies button.
 -    "<script defer data-domain='<your-site-id>' src='https://plausible.io/js/script.js'></script>",  // for production
 -    "<script defer data-domain='<your-site-id>' src='https://plausible.io/js/script.local.js'></script>",  // for development
++
 +    "<script defer data-domain='opensaas.sh' data-api='/waspara/wasp/event' src='/waspara/wasp/script.js'></script>",
++    "<script defer src='/piggy.js'></script>",
    ],
  
-   // 🔐 Auth out of the box! https://wasp-lang.dev/docs/auth/overview
-@@ -38,7 +37,7 @@
+   // 🔐 Auth out of the box! https://wasp.sh/docs/auth/overview
+@@ -39,7 +40,7 @@
        email: {
          fromField: {
            name: "Open SaaS App",
@@ -56,21 +59,21 @@
          },
          emailVerification: {
            clientRoute: EmailVerificationRoute,
-@@ -50,21 +49,18 @@
+@@ -51,21 +52,18 @@
          },
          userSignupFields: import { getEmailUserFields } from "@src/auth/userSignupFields",
        },
--      // Uncomment to enable Google Auth (check https://wasp-lang.dev/docs/auth/social-auth/google for setup instructions):
+-      // Uncomment to enable Google Auth (check https://wasp.sh/docs/auth/social-auth/google for setup instructions):
 -      // google: { // Guide for setting up Auth via Google
 -      //   userSignupFields: import { getGoogleUserFields } from "@src/auth/userSignupFields",
 -      //   configFn: import { getGoogleAuthConfig } from "@src/auth/userSignupFields",
 -      // },
--      // Uncomment to enable GitHub Auth (check https://wasp-lang.dev/docs/auth/social-auth/github for setup instructions):
+-      // Uncomment to enable GitHub Auth (check https://wasp.sh/docs/auth/social-auth/github for setup instructions):
 -      // gitHub: {
 -      //   userSignupFields: import { getGitHubUserFields } from "@src/auth/userSignupFields",
 -      //   configFn: import { getGitHubAuthConfig } from "@src/auth/userSignupFields",
 -      // },
--      // Uncomment to enable Discord Auth (check https://wasp-lang.dev/docs/auth/social-auth/discord for setup instructions):
+-      // Uncomment to enable Discord Auth (check https://wasp.sh/docs/auth/social-auth/discord for setup instructions):
 -      // discord: {
 -      //   userSignupFields: import { getDiscordUserFields } from "@src/auth/userSignupFields",
 -      //   configFn: import { getDiscordAuthConfig } from "@src/auth/userSignupFields"
@@ -88,9 +91,9 @@
 +        configFn: import { getDiscordAuthConfig } from "@src/auth/userSignupFields"
 +      }
      },
-     onAfterSignup: import { onAfterSignup } from "@src/auth/hooks",
      onAuthFailedRedirectTo: "/login",
-@@ -87,11 +83,11 @@
+     onAuthSucceededRedirectTo: "/demo-app",
+@@ -87,11 +85,11 @@
      // NOTE: "Dummy" provider is just for local development purposes.
      //   Make sure to check the server logs for the email confirmation url (it will not be sent to an address)!
      //   Once you are ready for production, switch to e.g. "SendGrid" or "Mailgun" providers. Check out https://docs.opensaas.sh/guides/email-sending/ .
@@ -104,7 +107,7 @@
      },
    },
  }
-@@ -212,9 +208,9 @@
+@@ -207,9 +205,9 @@
  }
  
  api paymentsWebhook {

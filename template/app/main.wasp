@@ -6,6 +6,7 @@ app OpenSaaS {
   title: "My Open SaaS App",
 
   head: [
+    "<link rel='icon' href='/favicon.ico' />",
     "<meta charset='utf-8' />",
     "<meta name='description' content='Your apps main description and features.' />",
     "<meta name='author' content='Your (App) Name' />",
@@ -29,7 +30,7 @@ app OpenSaaS {
     "<script defer data-domain='<your-site-id>' src='https://plausible.io/js/script.local.js'></script>",  // for development
   ],
 
-  // 🔐 Auth out of the box! https://wasp-lang.dev/docs/auth/overview
+  // 🔐 Auth out of the box! https://wasp.sh/docs/auth/overview
   auth: {
     userEntity: User,
     methods: {
@@ -50,23 +51,22 @@ app OpenSaaS {
         },
         userSignupFields: import { getEmailUserFields } from "@src/auth/userSignupFields",
       },
-      // Uncomment to enable Google Auth (check https://wasp-lang.dev/docs/auth/social-auth/google for setup instructions):
+      // Uncomment to enable Google Auth (check https://wasp.sh/docs/auth/social-auth/google for setup instructions):
       // google: { // Guide for setting up Auth via Google
       //   userSignupFields: import { getGoogleUserFields } from "@src/auth/userSignupFields",
       //   configFn: import { getGoogleAuthConfig } from "@src/auth/userSignupFields",
       // },
-      // Uncomment to enable GitHub Auth (check https://wasp-lang.dev/docs/auth/social-auth/github for setup instructions):
+      // Uncomment to enable GitHub Auth (check https://wasp.sh/docs/auth/social-auth/github for setup instructions):
       // gitHub: {
       //   userSignupFields: import { getGitHubUserFields } from "@src/auth/userSignupFields",
       //   configFn: import { getGitHubAuthConfig } from "@src/auth/userSignupFields",
       // },
-      // Uncomment to enable Discord Auth (check https://wasp-lang.dev/docs/auth/social-auth/discord for setup instructions):
+      // Uncomment to enable Discord Auth (check https://wasp.sh/docs/auth/social-auth/discord for setup instructions):
       // discord: {
       //   userSignupFields: import { getDiscordUserFields } from "@src/auth/userSignupFields",
       //   configFn: import { getDiscordAuthConfig } from "@src/auth/userSignupFields"
       // }
     },
-    onAfterSignup: import { onAfterSignup } from "@src/auth/hooks",
     onAuthFailedRedirectTo: "/login",
     onAuthSucceededRedirectTo: "/demo-app",
   },
@@ -140,13 +140,8 @@ query getPaginatedUsers {
   entities: [User]
 }
 
-action updateCurrentUser {
-  fn: import { updateCurrentUser } from "@src/user/operations",
-  entities: [User]
-}
-
-action updateUserById {
-  fn: import { updateUserById } from "@src/user/operations",
+action updateIsUserAdminById {
+  fn: import { updateIsUserAdminById } from "@src/user/operations",
   entities: [User]
 }
 //#endregion
@@ -330,18 +325,5 @@ route AdminMessagesRoute { path: "/admin/messages", to: AdminMessagesPage }
 page AdminMessagesPage {
   authRequired: true,
   component: import AdminMessages from "@src/messages/MessagesPage"
-}
-//#endregion
-
-//#region Newsletter
-job sendNewsletter {
-  executor: PgBoss,
-  perform: {
-    fn: import { checkAndQueueNewsletterEmails } from "@src/newsletter/sendNewsletter"
-  },
-  schedule: {
-    cron: "0 7 * * 1" // at 7:00 am every Monday
-  },
-  entities: [User]
 }
 //#endregion

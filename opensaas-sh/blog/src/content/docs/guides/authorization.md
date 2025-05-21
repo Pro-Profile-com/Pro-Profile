@@ -2,7 +2,7 @@
 title: Authorization
 banner:
   content: |
-    Open SaaS is now running on <b><a href='https://wasp-lang.dev'>Wasp v0.16</a></b>! <br/>⚙️<br/>If you're running an older version and would like to upgrade, please follow the <a href="https://wasp-lang.dev/docs/migration-guides/migrate-from-0-15-to-0-16">migration instructions.</a>
+    Have an Open SaaS app in production? <a href="https://e44cy1h4s0q.typeform.com/to/EPJCwsMi">We'll send you some swag! 👕</a>
 ---
 
 This guide will help you get started with authorization in your SaaS app. 
@@ -13,7 +13,7 @@ Authorization differs from [authentication](/guides/authentication/) in that aut
 
 To learn more about the different types of user permissions built into this SaaS template, including Stripe subscription tiers and statuses, check out the [User Overview Reference](/general/user-overview/).
 
-Also, check out our [blog post](https://wasp-lang.dev/blog/2022/11/29/permissions-in-web-apps) to learn more about authorization (access control) in web apps.
+Also, check out our [blog post](https://wasp.sh/blog/2022/11/29/permissions-in-web-apps) to learn more about authorization (access control) in web apps.
 
 ### Client-side Authorization
 
@@ -79,7 +79,7 @@ Authorization on the server-side is the core of your access control logic, and d
 You can authorize access to server-side operations by adding a check for a logged-in user on the `context.user` object which is passed to all operations in Wasp:
 
 ```tsx title="src/server/actions.ts" 
-export const updateCurrentUser: UpdateCurrentUser<...> = async (args, context) => {
+export const someServerAction: SomeServerAction<...> = async (args, context) => {
   if (!context.user) {
     throw new HttpError(401); // throw an error if user is not logged in
   }
